@@ -1,10 +1,19 @@
-This is NetBeans Java Project.
+##Naive Search Engine
+####This illustrates the basic functionality of a search engine
 
-Please use NetBeans latest Ide to run this application.
+<ul>
+<li>Indexing</li>
+<li>Query Optimization</li>
+<li>Searching on existing Index </li>
+</ul>
 
+<p>Built on top of Lucene API</p>
+
+
+####This is done for class project.  
 Required Java Version(JRE): 1.8
 
-Index File: Index file is saved on  /build/classes/resources/indexes/ folder of Netbeans project
+Index File: Index file is saved on  /build/classes/resources/indexes/ folder of  project
 
 Input: It takes input from User Interface. There is a textbox where user can give query.
 
