@@ -5,12 +5,13 @@
  */
 package search;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import indexing.BuildIndex;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Dimension;
+import java.awt.Menu;
+import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,6 +24,8 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -33,6 +36,11 @@ import org.apache.lucene.search.TopDocs;
 import utility.CONSTANTS;
 import utility.FileContent;
 import utility.WriteVariousStatistics;
+
+import edu.wright.dase.handler.ActionHandler.SearchActionListener;
+import edu.wright.dase.handler.ActionHandler.SelectIndexFilesActionListener;
+import edu.wright.dase.handler.ActionHandler.SelectLogOutputFolderActionListener;
+import edu.wright.dase.handler.ActionHandler.BuildIndexActionListener;
 
 /**
  *
@@ -45,21 +53,42 @@ public class SearchGUI extends javax.swing.JFrame {
 
 	private final String APP_TITLE = "Naive Search Engine";
 	private final String SEARCH_BUTTON_TEXT = "Search";
+	private final String SELECT_OUTPUT_LOG_FOLDER_TEXT = "Output Folder";
+	private final String SELECT_INPUT_FOLDER_TEXT = "Input Folder";
+	private final String BUILD_INDEX_TEXT = "Build Index";
 	private JPanel searchInputPanel;
 	private JPanel searchResultPanel;
-	private JPanel searchStatusPanel;
+	private JPanel statusPanel;
+	private MenuBar menubar;
+	private Menu menuBuildIndex;
+	private Menu menuSelectIndexFiles;
+	private Menu menuSelectLogOutputFolder;
 	private JButton searchButton;
 	private JTextArea searchInputTextArea;
 
-	private ActionListener searchActionListener;
+	// private ActionListener searchActionListener;
+	// private ActionListener selectIndexFilesActionListener;
+	// private ActionListener selectLogOutputFolderActionListener;
 
 	/**
 	 * Creates new form JavaApplication1GUI
 	 */
 	public SearchGUI() {
-		//initComponents();
+		// initComponents();
 		initComponentsCustom();
+
+		// testing file class
+		File file = new File("file1.txt");
+		try {
+		
+			System.out.println(file.getCanonicalPath() + "\t" + file.exists());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
+
 
 	private void initComponentsCustom() {
 		setTitle(APP_TITLE);
@@ -70,33 +99,39 @@ public class SearchGUI extends javax.swing.JFrame {
 		searchInputPanel.setLayout(new BorderLayout());
 		searchButton = new JButton(SEARCH_BUTTON_TEXT);
 		searchButton.addActionListener(new SearchActionListener());
-		searchButton.setPreferredSize(new Dimension(100,20));
-		searchButton.setSize(new Dimension(100,20));
-		
+		searchButton.setPreferredSize(new Dimension(100, 20));
+		searchButton.setSize(new Dimension(100, 20));
+
 		searchInputTextArea = new JTextArea();
 		searchInputTextArea.setLineWrap(true);
 		searchInputTextArea.setRows(1);
-		
+
 		searchInputPanel.add(searchButton, BorderLayout.EAST);
 		searchInputPanel.add(searchInputTextArea, BorderLayout.CENTER);
-		
-		
+
 		add(searchInputPanel, BorderLayout.NORTH);
+
+		formulateMenubar();
 
 	}
 
-	private class SearchActionListener implements ActionListener {
+	private void formulateMenubar() {
+		menubar = new MenuBar(); // getJMenuBar();
 
-		public SearchActionListener() {
+		menuBuildIndex = new Menu(BUILD_INDEX_TEXT);
+		menuBuildIndex.addActionListener(new BuildIndexActionListener());
 
-		}
+		menuSelectIndexFiles = new Menu(SELECT_INPUT_FOLDER_TEXT);
+		menuSelectIndexFiles.addActionListener(new SelectIndexFilesActionListener());
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		menuSelectLogOutputFolder = new Menu(SELECT_OUTPUT_LOG_FOLDER_TEXT);
+		menuSelectLogOutputFolder.addActionListener(new SelectLogOutputFolderActionListener());
 
-		}
+		menubar.add(menuBuildIndex);
+		menubar.add(menuSelectIndexFiles);
+		menubar.add(menuSelectLogOutputFolder);
 
+		this.setMenuBar(menubar);
 	}
 
 	/**
@@ -300,13 +335,14 @@ public class SearchGUI extends javax.swing.JFrame {
 					CONSTANTS.OSName = System.getProperty("os.name");
 
 					// Build Index
-//					String path = getClass().getClassLoader().getResource(CONSTANTS.indexpath).getPath();
-//					if (CONSTANTS.OSName.startsWith("Win")) {
-//						path = path.substring(1, path.length());
-//					}
-//					if (!(Files.exists(Paths.get(path + "/_0.cfe")))) {
-//						new BuildIndex();
-//					}
+					// String path =
+					// getClass().getClassLoader().getResource(CONSTANTS.indexpath).getPath();
+					// if (CONSTANTS.OSName.startsWith("Win")) {
+					// path = path.substring(1, path.length());
+					// }
+					// if (!(Files.exists(Paths.get(path + "/_0.cfe")))) {
+					// new BuildIndex();
+					// }
 				} catch (Exception ex) {
 					Logger.getLogger(SearchGUI.class.getName()).log(Level.SEVERE, null, ex);
 				}
