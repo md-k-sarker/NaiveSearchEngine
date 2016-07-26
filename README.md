@@ -1,11 +1,13 @@
 ##Naive Search Engine
-####This illustrates the basic functionality of a edu.wright.dase.control engine
+####This illustrates the basic functionality of a Search Engine
 
-<ul>
-<li>Indexing</li>
-<li>Query Optimization</li>
-<li>Searching on existing Index </li>
-</ul>
+</br>
+
+
+####Indexing
+####Query Optimization
+####Searching on existing Index 
+
 
 <p>Built on top of Lucene API</p>
 
@@ -17,13 +19,11 @@ Index File: Index file is saved on  /build/classes/resources/indexes/ folder of 
 
 Input: It takes input from User Interface. There is a textbox where user can give query.
 
-Output: Output is shown in Console. After clicking on edu.wright.dase.control button output documents will be shown on console.
-Output is also available in text file format(.txt). In Netbeans project inside /build/classes/resources/output/ folder result.txt file contains the result.
+Output: Output is shown on User Interface and in Console. 
+Output is also available in text file format(.txt). 
+
+<p><b>Various statistics is also available. Like Index Building Time, Searching Time, Document score etc  </b></p>
 
 index-file: /build/classes/resources/indexes/
 result: /build/classes/resources/output/results.txt
 execution time: /build/classes/resources/output/time.txt
-
-Program tested on
-1. Mac OS X EI Capitan(Version 10.11.13)
-2. Windows 7
