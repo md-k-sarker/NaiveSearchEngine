@@ -44,8 +44,7 @@ public final class BuildIndex {
 	private File indexFilesDirectory;
 
 	public BuildIndex(File inputFilesDirectory, File indexFilesDirectory) throws IOException {
-		
-		
+
 		this.inputFilesDirectory = inputFilesDirectory;
 		this.indexFilesDirectory = indexFilesDirectory;
 		rebuildIndex();
@@ -120,8 +119,7 @@ public final class BuildIndex {
 	private void updateIndex(File file) throws IOException {
 		IndexWriter writer = getIndexWriter(false);
 		writer.addDocument(getDocument(file));
-		// System.out.println("Indexing " + file.getCanonicalPath() + "
-		// completed.");
+		//System.out.println("Indexing " + file.getCanonicalPath() + " completed.");
 	}
 
 	public void rebuildIndex() throws IOException {
@@ -129,6 +127,8 @@ public final class BuildIndex {
 		// String path =
 		// getClass().getClassLoader().getResource(CONSTANTS.docspath).getPath();
 		String path = inputFilesDirectory.toString();
+		System.out.println("Started Indexing in  " + path + " this folder.");
+		
 		if (CONSTANTS.OSName.startsWith("Win")) {
 			path = path.substring(1, path.length());
 		}
@@ -136,12 +136,14 @@ public final class BuildIndex {
 		Files.walk(Paths.get(path)).forEach((Path filepath) -> {
 			if (Files.isRegularFile(filepath)) {
 				try {
+					//System.out.println("filePath: " + filepath);
 					updateIndex(filepath.toFile());
 				} catch (Exception ex) {
 					Logger.getLogger("Something Wrong. " + BuildIndex.class.getName()).log(Level.SEVERE, null, ex);
+					ex.printStackTrace();
 				}
 			} else {
-				// System.out.println("Not File: " + filepath);
+				 System.out.println("Not File: " + filepath);
 			}
 		});
 

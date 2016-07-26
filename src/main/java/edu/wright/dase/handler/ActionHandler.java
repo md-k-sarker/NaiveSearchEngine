@@ -57,7 +57,7 @@ public class ActionHandler {
 			} else {
 				try {
 					File file = File.createTempFile("Indexes", null);
-					CONSTANTS.indexFilesDirectory = file;
+					CONSTANTS.indexFilesDirectory = file.getParentFile();
 					System.out.println("Set CONSTANTS.indexFilesDirectory: " + CONSTANTS.indexFilesDirectory);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -70,16 +70,16 @@ public class ActionHandler {
 		public void actionPerformed(ActionEvent e) {
 			try {
 
-				//createIndexFolderIfNotExist();
+				createIndexFolderIfNotExist();
 
-				if (CONSTANTS.inputFilesDirectory != null && CONSTANTS.indexFilesDirectory != null) {
+				if (CONSTANTS.inputFilesDirectory != null) {
 
 					new BuildIndex(CONSTANTS.inputFilesDirectory, CONSTANTS.indexFilesDirectory);
 
 				} else {
-					JOptionPane.showMessageDialog(parent, "", "", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(parent, "Please specify input folders first.", "Input Folder Not Specified", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			} catch (IOException exception) {
 				exception.printStackTrace();
 				JOptionPane.showMessageDialog(parent, "", "", JOptionPane.ERROR_MESSAGE);
@@ -114,7 +114,7 @@ public class ActionHandler {
 				fileChooser.setDialogTitle("Chose Folder");
 
 				if (fileChooser.showOpenDialog(this.parent) == JFileChooser.APPROVE_OPTION) {
-					selectedFolder = fileChooser.getCurrentDirectory();
+					selectedFolder = fileChooser.getSelectedFile();
 					System.out.println("selectedFolder " + selectedFolder);
 					CONSTANTS.inputFilesDirectory = selectedFolder;
 				}

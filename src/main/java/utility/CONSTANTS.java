@@ -30,7 +30,7 @@ public class CONSTANTS {
     
     public static File inputFilesDirectory; 
     
-    public static File indexFilesDirectory; 
+    public static File indexFilesDirectory ; 
     
     public static String docspath = "resources/documents";
     
