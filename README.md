@@ -2,9 +2,22 @@
 ####This illustrates the basic functionality of a Search Engine
 
 ####Indexing
-####Query Optimization
-####Searching on existing Index 
+First raw text need to be analyzed.
 
+1. Case Folding
+2. Remove StopWords
+3. Stemming 
+
+After analyzing done different field has given different weightage.
+
+ 
+####Query Optimization
+Query Optimization is highly important.
+Query need to be build using same Analyzer
+
+
+####Searching on existing Index 
+Return the matching documents
 
 <p>Built on top of Lucene API</p> 
 
