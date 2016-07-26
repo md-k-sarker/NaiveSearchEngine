@@ -12,6 +12,7 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Menu;
 import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -56,13 +57,14 @@ public class SearchGUI extends javax.swing.JFrame {
 	private final String SELECT_OUTPUT_LOG_FOLDER_TEXT = "Output Folder";
 	private final String SELECT_INPUT_FOLDER_TEXT = "Input Folder";
 	private final String BUILD_INDEX_TEXT = "Build Index";
+	private final String OPTIONS_TEXT = "Option";
 	private JPanel searchInputPanel;
 	private JPanel searchResultPanel;
 	private JPanel statusPanel;
 	private MenuBar menubar;
-	private Menu menuBuildIndex;
-	private Menu menuSelectIndexFiles;
-	private Menu menuSelectLogOutputFolder;
+	private MenuItem menuItemBuildIndex;
+	private MenuItem menuItemSelectIndexFiles;
+	private MenuItem menuItemSelectLogOutputFolder;
 	private JButton searchButton;
 	private JTextArea searchInputTextArea;
 
@@ -80,7 +82,7 @@ public class SearchGUI extends javax.swing.JFrame {
 		// testing file class
 		File file = new File("file1.txt");
 		try {
-		
+
 			System.out.println(file.getCanonicalPath() + "\t" + file.exists());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -88,7 +90,6 @@ public class SearchGUI extends javax.swing.JFrame {
 		}
 
 	}
-
 
 	private void initComponentsCustom() {
 		setTitle(APP_TITLE);
@@ -113,23 +114,33 @@ public class SearchGUI extends javax.swing.JFrame {
 
 		formulateMenubar();
 
+		addListeners();
+	}
+
+	private void addListeners() {
+		menuItemBuildIndex.addActionListener(new BuildIndexActionListener(this));
+
+		menuItemSelectIndexFiles.addActionListener(new SelectIndexFilesActionListener(this));
+
+		menuItemSelectLogOutputFolder.addActionListener(new SelectLogOutputFolderActionListener(this));
 	}
 
 	private void formulateMenubar() {
 		menubar = new MenuBar(); // getJMenuBar();
 
-		menuBuildIndex = new Menu(BUILD_INDEX_TEXT);
-		menuBuildIndex.addActionListener(new BuildIndexActionListener());
+		Menu defaultMenu = new Menu(OPTIONS_TEXT);
 
-		menuSelectIndexFiles = new Menu(SELECT_INPUT_FOLDER_TEXT);
-		menuSelectIndexFiles.addActionListener(new SelectIndexFilesActionListener());
+		menuItemBuildIndex = new MenuItem(BUILD_INDEX_TEXT);
 
-		menuSelectLogOutputFolder = new Menu(SELECT_OUTPUT_LOG_FOLDER_TEXT);
-		menuSelectLogOutputFolder.addActionListener(new SelectLogOutputFolderActionListener());
+		menuItemSelectIndexFiles = new MenuItem(SELECT_INPUT_FOLDER_TEXT);
 
-		menubar.add(menuBuildIndex);
-		menubar.add(menuSelectIndexFiles);
-		menubar.add(menuSelectLogOutputFolder);
+		menuItemSelectLogOutputFolder = new MenuItem(SELECT_OUTPUT_LOG_FOLDER_TEXT);
+
+		defaultMenu.add(menuItemBuildIndex);
+		defaultMenu.add(menuItemSelectIndexFiles);
+		defaultMenu.add(menuItemSelectLogOutputFolder);
+
+		menubar.add(defaultMenu);
 
 		this.setMenuBar(menubar);
 	}

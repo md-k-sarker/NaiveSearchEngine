@@ -6,11 +6,15 @@
 package utility;
 
 import indexing.BuildIndex;
+
+import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
+
+import org.apache.lucene.store.Directory;
 
 /**
  *
@@ -23,6 +27,10 @@ public class CONSTANTS {
     public static double THRESHOLD = .1;
     
     public static String indexpath = "resources/indexes";
+    
+    public static File inputFilesDirectory; 
+    
+    public static File indexFilesDirectory; 
     
     public static String docspath = "resources/documents";
     

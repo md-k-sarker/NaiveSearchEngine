@@ -40,25 +40,31 @@ import utility.FileContent;
 public final class BuildIndex {
 
 	private IndexWriter indexwriter; // = new IndexWriter
-	private Directory inputFilesDirectory;
+	private File inputFilesDirectory;
+	private File indexFilesDirectory;
 
-	public BuildIndex(Directory inputFileDirectory) throws IOException {
-		this.inputFilesDirectory = inputFileDirectory;
+	public BuildIndex(File inputFilesDirectory, File indexFilesDirectory) throws IOException {
+		
+		
+		this.inputFilesDirectory = inputFilesDirectory;
+		this.indexFilesDirectory = indexFilesDirectory;
 		rebuildIndex();
 		closeIndexWriter();
 	}
 
 	public IndexWriter getIndexWriter(boolean create) throws IOException {
 		if (indexwriter == null) {
-//			String path = getClass().getClassLoader().getResource(CONSTANTS.indexpath).getPath();
-//			if (CONSTANTS.OSName.startsWith("Win")) {
-//				path = path.substring(1, path.length());
-//			}
-//			Directory indexfile = FSDirectory.open(Paths.get(path));
-			
-			//use the inputFilesDirectory 
+			// String path =
+			// getClass().getClassLoader().getResource(CONSTANTS.indexpath).getPath();
+			// if (CONSTANTS.OSName.startsWith("Win")) {
+			// path = path.substring(1, path.length());
+			// }
+
+			Directory _indexFilesDirectory = FSDirectory.open(indexFilesDirectory.toPath());
+
+			// use the inputFilesDirectory
 			IndexWriterConfig indexwriterconfig = new IndexWriterConfig(new StandardAnalyzerCustomed());
-			indexwriter = new IndexWriter(inputFilesDirectory, indexwriterconfig);
+			indexwriter = new IndexWriter(_indexFilesDirectory, indexwriterconfig);
 		}
 		return indexwriter;
 	}
@@ -73,6 +79,8 @@ public final class BuildIndex {
 	// content[0] = title[.T ], content[1] = abstract[.A ], content[2] =
 	/// branch[.B ], content[3] = Words [.W ]
 	/**
+	 * Take a text file as input and convert that file as Lucene Document
+	 * 
 	 * content[0] = title[.T ], content[1] = abstract[.A ], content[2] =
 	 * branch[.B ], content[3] = Words [.W ]
 	 * 
@@ -118,8 +126,9 @@ public final class BuildIndex {
 
 	public void rebuildIndex() throws IOException {
 		getIndexWriter(true);
-		//String path = getClass().getClassLoader().getResource(CONSTANTS.docspath).getPath();
-		String path = inputFilesDirectory.toString(); 
+		// String path =
+		// getClass().getClassLoader().getResource(CONSTANTS.docspath).getPath();
+		String path = inputFilesDirectory.toString();
 		if (CONSTANTS.OSName.startsWith("Win")) {
 			path = path.substring(1, path.length());
 		}
