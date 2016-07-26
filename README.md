@@ -1,5 +1,5 @@
 ##Naive Search Engine
-####This illustrates the basic functionality of a search engine
+####This illustrates the basic functionality of a edu.wright.dase.control engine
 
 <ul>
 <li>Indexing</li>
@@ -17,7 +17,7 @@ Index File: Index file is saved on  /build/classes/resources/indexes/ folder of 
 
 Input: It takes input from User Interface. There is a textbox where user can give query.
 
-Output: Output is shown in Console. After clicking on search button output documents will be shown on console.
+Output: Output is shown in Console. After clicking on edu.wright.dase.control button output documents will be shown on console.
 Output is also available in text file format(.txt). In Netbeans project inside /build/classes/resources/output/ folder result.txt file contains the result.
 
 index-file: /build/classes/resources/indexes/

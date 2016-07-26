@@ -11,12 +11,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.util.Constants;
 
-import indexing.BuildIndex;
-import utility.CONSTANTS;
+import edu.wright.dase.control.Controller;
+import edu.wright.dase.indexing.BuildIndex;
+import edu.wright.dase.model.CONSTANTS;
+import edu.wright.dase.ui.SearchGUI;
 
 /**
  * @author sarker
@@ -26,14 +30,29 @@ public class ActionHandler {
 
 	public static class SearchActionListener implements ActionListener {
 
-		public SearchActionListener() {
+		SearchGUI searchGui;
+		Controller controller;
 
+		public SearchActionListener(SearchGUI searchGui, Controller controller) {
+			this.searchGui = searchGui;
+			this.controller = controller;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 
+			try {
+				String queryText = searchGui.getQueryText();
+
+				controller.search(queryText);
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -45,25 +64,34 @@ public class ActionHandler {
 		}
 
 		private void createIndexFolderIfNotExist() {
-			if (CONSTANTS.indexFilesDirectory != null) {
-				if (!CONSTANTS.indexFilesDirectory.exists()) {
+
+			if (CONSTANTS.INDEXPATH != null) {
+
+				File indexFilesDirectory = new File(CONSTANTS.INDEXPATH + "/Indexes");
+				if (!indexFilesDirectory.exists()) {
 					try {
-						CONSTANTS.indexFilesDirectory.createNewFile();
+						System.out.println(CONSTANTS.INDEXPATH + " not exist. Creating Directory. ");
+						File file = File.createTempFile("Indexes", null);
+						CONSTANTS.INDEXPATH = file.getParentFile().getCanonicalPath() + "/Indexes";
+						System.out.println("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			} else {
 				try {
+					System.out.println("CONSTANTS.INDEXPATH is null, creating in Temporary folder");
 					File file = File.createTempFile("Indexes", null);
-					CONSTANTS.indexFilesDirectory = file.getParentFile();
-					System.out.println("Set CONSTANTS.indexFilesDirectory: " + CONSTANTS.indexFilesDirectory);
+					CONSTANTS.INDEXPATH = file.getParentFile().getCanonicalPath() + "/Indexes";
+					System.out.println("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
+			SearchGUI searchGUI = (SearchGUI) parent;
+			searchGUI.setIndexFolderText(CONSTANTS.INDEXPATH);
+
 		}
 
 		@Override
@@ -72,57 +100,50 @@ public class ActionHandler {
 
 				createIndexFolderIfNotExist();
 
-				if (CONSTANTS.inputFilesDirectory != null) {
+				if (CONSTANTS.INPUTFILESDIRECTORY != null) {
 
-					new BuildIndex(CONSTANTS.inputFilesDirectory, CONSTANTS.indexFilesDirectory);
+					new BuildIndex(CONSTANTS.INPUTFILESDIRECTORY, CONSTANTS.INDEXPATH);
 
 				} else {
-					JOptionPane.showMessageDialog(parent, "Please specify input folders first.", "Input Folder Not Specified", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(parent, "Please specify input folders first.",
+							"Input Folder Not Specified", JOptionPane.ERROR_MESSAGE);
 				}
 
 			} catch (IOException exception) {
 				exception.printStackTrace();
 				JOptionPane.showMessageDialog(parent, "", "", JOptionPane.ERROR_MESSAGE);
 			}
-			// TODO Auto-generated method stub
-
 		}
 	}
 
-	public static class SelectIndexFilesActionListener implements ActionListener {
+	public static class SelectInputFilesActionListener implements ActionListener {
 
 		Component parent;
 
-		public SelectIndexFilesActionListener(Component parent) {
+		public SelectInputFilesActionListener(Component parent) {
 			this.parent = parent;
-			System.out.println("initialized");
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			String tmpFolderDir;
+
 			File selectedFolder;
-			System.out.println("called");
 			try {
 
-				tmpFolderDir = File.createTempFile("_temp_", null).getParent();
-
 				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(tmpFolderDir));
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setDialogTitle("Chose Folder");
 
 				if (fileChooser.showOpenDialog(this.parent) == JFileChooser.APPROVE_OPTION) {
 					selectedFolder = fileChooser.getSelectedFile();
-					System.out.println("selectedFolder " + selectedFolder);
-					CONSTANTS.inputFilesDirectory = selectedFolder;
+					System.out.println("InputFilesPath: " + selectedFolder);
+					CONSTANTS.INPUTFILESDIRECTORY = selectedFolder.getCanonicalPath();
+					SearchGUI searchGUI = (SearchGUI) parent;
+					searchGUI.setInputFolderText(selectedFolder.getCanonicalPath());
 				}
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
 		}
 	}
 
@@ -135,8 +156,52 @@ public class ActionHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			File selectedFolder;
+			try {
 
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setDialogTitle("Choose Output Folder");
+
+				if (fileChooser.showOpenDialog(this.parent) == JFileChooser.APPROVE_OPTION) {
+					selectedFolder = fileChooser.getSelectedFile();
+					System.out.println("SelectedLogOutputFolder: " + selectedFolder);
+					CONSTANTS.RESULTSPATH = selectedFolder.getCanonicalPath();
+					SearchGUI searchGUI = (SearchGUI) parent;
+					searchGUI.setOutputFolderText(selectedFolder.getCanonicalPath());
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static class SelectIndexSavingFolderActionListener implements ActionListener {
+		Component parent;
+
+		public SelectIndexSavingFolderActionListener(Component parent) {
+			this.parent = parent;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			File selectedFolder;
+			try {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setDialogTitle("Choose a folder where you want to save Indexes.");
+
+				if (fileChooser.showOpenDialog(this.parent) == JFileChooser.APPROVE_OPTION) {
+					selectedFolder = fileChooser.getSelectedFile();
+					System.out.println("SelecttedIndexSavingFolder: " + selectedFolder);
+					CONSTANTS.INDEXPATH = selectedFolder.getCanonicalPath();
+					SearchGUI searchGUI = (SearchGUI) parent;
+					searchGUI.setIndexFolderText(selectedFolder.getCanonicalPath());
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
