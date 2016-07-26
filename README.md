@@ -28,4 +28,4 @@ Output is also available in text file format(.txt).
 
 <p><b>Various statistics is also available. Like Index Building Time, Searching Time, Document score etc  </b></p>
 
-####This is done for class project. 
+####This is done for class project. Information Retrieval(CS:7800)
