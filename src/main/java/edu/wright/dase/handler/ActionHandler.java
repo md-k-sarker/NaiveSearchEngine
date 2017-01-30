@@ -67,9 +67,11 @@ public class ActionHandler {
 
 			if (CONSTANTS.INDEXPATH != null) {
 
-				File indexFilesDirectory = new File(CONSTANTS.INDEXPATH + "/Indexes");
+				File indexFilesDirectory = new File(CONSTANTS.INDEXPATH);
+				// path does not exist. create a new path/folder
 				if (!indexFilesDirectory.exists()) {
 					try {
+						indexFilesDirectory = new File(CONSTANTS.INDEXPATH + "/Indexes");
 						System.out.println(CONSTANTS.INDEXPATH + " not exist. Creating Directory. ");
 						File file = File.createTempFile("Indexes", null);
 						CONSTANTS.INDEXPATH = file.getParentFile().getCanonicalPath() + "/Indexes";
@@ -77,6 +79,7 @@ public class ActionHandler {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+				} else {
 				}
 			} else {
 				try {

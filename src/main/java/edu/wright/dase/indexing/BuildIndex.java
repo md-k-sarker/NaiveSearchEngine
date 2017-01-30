@@ -137,7 +137,11 @@ public final class BuildIndex {
 		Files.walk(Paths.get(path)).forEach((Path filepath) -> {
 			if (Files.isRegularFile(filepath)) {
 				try {
-					updateIndex(filepath.toFile());
+					if (filepath.endsWith(".txt")) {
+						updateIndex(filepath.toFile());
+					}else{
+						System.out.println("Not a text file. "+ filepath.toString());
+					}
 				} catch (IOException ex) {
 					Logger.getLogger("IOException. " + BuildIndex.class.getName()).log(Level.SEVERE, null, ex);
 					ex.printStackTrace();
