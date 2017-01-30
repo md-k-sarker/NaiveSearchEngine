@@ -22,7 +22,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
@@ -37,6 +38,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.lucene.document.Document;
@@ -202,7 +204,7 @@ public class SearchGUI extends javax.swing.JFrame {
 
 	private void setTexts() {
 		try {
-			//indexFolderTextField.setText(CONSTANTS.INDEXPATH);
+			// indexFolderTextField.setText(CONSTANTS.INDEXPATH);
 			inputFilesTextField.setText(CONSTANTS.INPUTFILESDIRECTORY);
 			outputFilesTextField.setText(CONSTANTS.RESULTSPATH);
 
@@ -310,7 +312,7 @@ public class SearchGUI extends javax.swing.JFrame {
 		try {
 			FileContent.chooseFile(topFrame);
 		} catch (Exception ex) {
-			Logger.getLogger(SearchGUI.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 	}
 
@@ -320,8 +322,12 @@ public class SearchGUI extends javax.swing.JFrame {
 	 */
 	public static void main(String args[]) {
 		try {
-
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (ClassNotFoundException ex) {
 			java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
@@ -341,7 +347,7 @@ public class SearchGUI extends javax.swing.JFrame {
 					CONSTANTS.OSNAME = System.getProperty("os.name");
 
 				} catch (Exception ex) {
-					Logger.getLogger(SearchGUI.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 				}
 			}
 		});
