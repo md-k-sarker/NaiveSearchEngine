@@ -43,8 +43,8 @@ public class ActionHandler {
 
 			try {
 				String queryText = searchGui.getQueryText();
-
-				controller.search(queryText);
+				if (queryText.length() > 0)
+					controller.search(queryText);
 
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

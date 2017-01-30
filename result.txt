@@ -1,27 +1,16 @@
 .Q 1
- law
+ Hello
+.Q 1
+ Hi
 Id	OutputDocs 
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-817	Score: 13.833027
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-359	Score: 13.616009
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-13	Score: 12.656818
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-56	Score: 12.6048355
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-486	Score: 12.592146
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-563	Score: 12.469051
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-584	Score: 12.4398
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1201	Score: 12.195604
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-160	Score: 10.686008
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-818	Score: 5.349347
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1186	Score: 4.741645
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-332	Score: 4.553877
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1121	Score: 4.360679
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1026	Score: 4.3340693
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1196	Score: 3.8631482
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1034	Score: 3.8479462
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1254	Score: 3.536405
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1261	Score: 3.1632435
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1003	Score: 3.1286895
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-165	Score: 2.7475185
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1335	Score: 2.62649
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-329	Score: 2.2848575
-1	/Users/sarker/WorkSpaces/Eclipse/NaiveSearchEngine/src/main/resources/documents/Doc-1061	Score: 2.027407
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-8.txt	Score: 5.583943
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-99.txt	Score: 4.9807396
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-1123.txt	Score: 4.946844
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-506.txt	Score: 4.5284424
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-1047.txt	Score: 4.050601
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-309.txt	Score: 4.006354
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-344.txt	Score: 3.5182562
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-1137.txt	Score: 3.3632767
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-1072.txt	Score: 2.5961378
+1	/Users/sarker/WorkSpaces/EclipseNeon/NaiveSearchEngine/src/main/resources/documents/cranfield/Doc-262.txt	Score: 2.1743994
 		
