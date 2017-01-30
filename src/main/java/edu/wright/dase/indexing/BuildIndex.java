@@ -30,6 +30,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+import org.apache.commons.io.FilenameUtils;
+
 import edu.wright.dase.model.CONSTANTS;
 import edu.wright.dase.model.FileContent;
 import edu.wright.dase.model.StandardAnalyzerCustomed;
@@ -137,10 +139,11 @@ public final class BuildIndex {
 		Files.walk(Paths.get(path)).forEach((Path filepath) -> {
 			if (Files.isRegularFile(filepath)) {
 				try {
-					if (filepath.endsWith(".txt")) {
+					String extension = FilenameUtils.getExtension(filepath.toString());
+					if (extension.toLowerCase().equals("txt")) {
 						updateIndex(filepath.toFile());
-					}else{
-						System.out.println("Not a text file. "+ filepath.toString());
+					} else {
+						System.out.println("Not a text file. " + filepath.toString());
 					}
 				} catch (IOException ex) {
 					Logger.getLogger("IOException. " + BuildIndex.class.getName()).log(Level.SEVERE, null, ex);
