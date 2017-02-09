@@ -14,9 +14,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import edu.wright.dase.ui.SearchGUI;
 
 /**
  *
@@ -24,6 +29,8 @@ import javax.swing.SwingUtilities;
  */
 public class FileContent {
 
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
+	
     public FileContent() {
 
     }

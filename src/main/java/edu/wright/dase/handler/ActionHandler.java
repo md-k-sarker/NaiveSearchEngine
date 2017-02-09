@@ -8,14 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wright.dase.control.Controller;
 import edu.wright.dase.indexing.BuildIndex;
@@ -27,6 +26,8 @@ import edu.wright.dase.ui.SearchGUI;
  *
  */
 public class ActionHandler {
+
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
 
 	public static class SearchActionListener implements ActionListener {
 
@@ -47,11 +48,11 @@ public class ActionHandler {
 					controller.search(queryText);
 
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("IOException ", e1);
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("ParseException ", e1);
+			} catch(Exception e1){
+				logger.error("Exception ", e1);
 			}
 		}
 	}
@@ -75,18 +76,19 @@ public class ActionHandler {
 						System.out.println(CONSTANTS.INDEXPATH + " not exist. Creating Directory. ");
 						File file = File.createTempFile("Indexes", null);
 						CONSTANTS.INDEXPATH = file.getParentFile().getCanonicalPath() + "/Indexes";
-						System.out.println("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
+						logger.info("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
 					} catch (IOException e) {
 						e.printStackTrace();
+						logger.error("IOException", e);
 					}
 				} else {
 				}
 			} else {
 				try {
-					System.out.println("CONSTANTS.INDEXPATH is null, creating in Temporary folder");
+					logger.info("CONSTANTS.INDEXPATH is null, creating in Temporary folder");
 					File file = File.createTempFile("Indexes", null);
 					CONSTANTS.INDEXPATH = file.getParentFile().getCanonicalPath() + "/Indexes";
-					System.out.println("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
+					logger.info("CONSTANTS.INDEXPATH: " + CONSTANTS.INDEXPATH);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -108,13 +110,15 @@ public class ActionHandler {
 					new BuildIndex(CONSTANTS.INPUTFILESDIRECTORY, CONSTANTS.INDEXPATH);
 
 				} else {
-					JOptionPane.showMessageDialog(parent, "Please specify input folders first.",
-							"Input Folder Not Specified", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(parent,
+							"To build index text file is necessary. \nPlease select input folder where the text files are in.",
+							"Input Text file not found", JOptionPane.ERROR_MESSAGE);
 				}
 
 			} catch (IOException exception) {
 				exception.printStackTrace();
-				JOptionPane.showMessageDialog(parent, "", "", JOptionPane.ERROR_MESSAGE);
+				logger.error("IOException", exception);
+				JOptionPane.showMessageDialog(parent, exception.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

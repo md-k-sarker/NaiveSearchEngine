@@ -6,32 +6,24 @@
 package edu.wright.dase.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-import java.util.logging.Logger;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -41,27 +33,22 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
-
+import edu.wright.dase.control.Controller;
+import edu.wright.dase.handler.ActionHandler.BuildIndexActionListener;
 import edu.wright.dase.handler.ActionHandler.SearchActionListener;
+import edu.wright.dase.handler.ActionHandler.SelectIndexSavingFolderActionListener;
 import edu.wright.dase.handler.ActionHandler.SelectInputFilesActionListener;
 import edu.wright.dase.handler.ActionHandler.SelectLogOutputFolderActionListener;
-import edu.wright.dase.indexing.BuildIndex;
 import edu.wright.dase.model.CONSTANTS;
 import edu.wright.dase.model.FileContent;
-import edu.wright.dase.control.Controller;
-import edu.wright.dase.control.WriteVariousStatistics;
-import edu.wright.dase.handler.ActionHandler.BuildIndexActionListener;
-import edu.wright.dase.handler.ActionHandler.SelectIndexSavingFolderActionListener;
 
 /**
  *
  * @author mdkamruzzamansarker checking git commits
  */
 public class SearchGUI extends javax.swing.JFrame {
+
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
 
 	private String inputquery = null;
 	private static JLabel[] resultlabels = new JLabel[10];
@@ -139,7 +126,7 @@ public class SearchGUI extends javax.swing.JFrame {
 		configInputFilesPanel = new JPanel();
 		configInputFilesPanel.setLayout(new BorderLayout());
 		inputFilesTextField = new JTextField();
-		inputFilesTextField.setEditable(false);
+		inputFilesTextField.setEditable(true);
 		inputFilesTextField.setColumns(50);
 		selectInputFilesButton = new JButton();
 		selectInputFilesButton.setText(SELECT_INPUT_FOLDER_TEXT);
@@ -151,34 +138,34 @@ public class SearchGUI extends javax.swing.JFrame {
 		configIndexFolderPanel = new JPanel();
 		configIndexFolderPanel.setLayout(new BorderLayout());
 		indexFolderTextField = new JTextField();
-		indexFolderTextField.setEditable(false);
+		indexFolderTextField.setEditable(true);
 		indexFolderTextField.setColumns(50);
 		selectIndexSavingFolderButton = new JButton();
 		selectIndexSavingFolderButton.setText(INDEX_FOLDER_TEXT);
 		selectIndexSavingFolderButton.setPreferredSize(new Dimension(120, 20));
 		selectIndexSavingFolderButton.setSize(new Dimension(120, 20));
-		buildIndexButton = new JButton();
-		buildIndexButton.setText(BUILD_INDEX_TEXT);
-		buildIndexButton.setPreferredSize(new Dimension(120, 20));
-		buildIndexButton.setSize(new Dimension(120, 20));
-		configIndexFolderPanel.add(buildIndexButton, BorderLayout.NORTH);
 		configIndexFolderPanel.add(indexFolderTextField, BorderLayout.CENTER);
 		configIndexFolderPanel.add(selectIndexSavingFolderButton, BorderLayout.EAST);
 
 		configOutputFilesPanel = new JPanel();
 		configOutputFilesPanel.setLayout(new BorderLayout());
 		outputFilesTextField = new JTextField();
-		outputFilesTextField.setEditable(false);
+		outputFilesTextField.setEditable(true);
 		outputFilesTextField.setColumns(50);
 		selectOutputFolderButton = new JButton();
 		selectOutputFolderButton.setText(SELECT_OUTPUT_LOG_FOLDER_TEXT);
 		selectOutputFolderButton.setPreferredSize(new Dimension(120, 20));
 		selectOutputFolderButton.setSize(new Dimension(120, 20));
+		buildIndexButton = new JButton();
+		buildIndexButton.setText(BUILD_INDEX_TEXT);
+		buildIndexButton.setPreferredSize(new Dimension(120, 30));
+		buildIndexButton.setSize(new Dimension(120, 30));
+		configOutputFilesPanel.add(buildIndexButton, BorderLayout.SOUTH);
 		configOutputFilesPanel.add(outputFilesTextField, BorderLayout.CENTER);
 		configOutputFilesPanel.add(selectOutputFolderButton, BorderLayout.EAST);
 
-		configPanel.add(configInputFilesPanel, BorderLayout.CENTER);
-		configPanel.add(configIndexFolderPanel, BorderLayout.NORTH);
+		configPanel.add(configInputFilesPanel, BorderLayout.NORTH);
+		configPanel.add(configIndexFolderPanel, BorderLayout.CENTER);
 		configPanel.add(configOutputFilesPanel, BorderLayout.SOUTH);
 
 		searchResultPanel = new JPanel();
@@ -312,7 +299,7 @@ public class SearchGUI extends javax.swing.JFrame {
 		try {
 			FileContent.chooseFile(topFrame);
 		} catch (Exception ex) {
-			Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			logger.error("Exception", ex);
 		}
 	}
 
@@ -347,7 +334,7 @@ public class SearchGUI extends javax.swing.JFrame {
 					CONSTANTS.OSNAME = System.getProperty("os.name");
 
 				} catch (Exception ex) {
-					Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+					logger.debug("Exception", ex);
 				}
 			}
 		});

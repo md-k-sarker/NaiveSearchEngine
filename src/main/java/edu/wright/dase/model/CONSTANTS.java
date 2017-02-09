@@ -5,16 +5,8 @@
  */
 package edu.wright.dase.model;
 
-import java.io.File;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
-
-import org.apache.lucene.store.Directory;
-
-import edu.wright.dase.indexing.BuildIndex;
 
 /**
  *
@@ -28,11 +20,11 @@ public class CONSTANTS {
     
     public static double THRESHOLD = .1;
     
-    public static String INDEXPATH = "resources/indexes";
+    public static String INDEXPATH = "";
     
     public static String INPUTFILESDIRECTORY = ""; 
     
-    public static String RESULTSPATH = "./";
+    public static String RESULTSPATH = "";
     
     public static long indexsearchduration = 0;
     

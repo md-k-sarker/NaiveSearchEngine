@@ -5,42 +5,37 @@
  */
 package edu.wright.dase.indexing;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.commons.io.FilenameUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
-
-import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wright.dase.model.CONSTANTS;
 import edu.wright.dase.model.FileContent;
 import edu.wright.dase.model.StandardAnalyzerCustomed;
+import edu.wright.dase.ui.SearchGUI;
 
 /**
  *
  * @author mdkamruzzamansarker
  */
 public final class BuildIndex {
+
+	final static Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
 	private IndexWriter indexwriter;
 	private File inputFilesDirectory;
@@ -57,11 +52,6 @@ public final class BuildIndex {
 
 	public IndexWriter getIndexWriter() throws IOException {
 		if (indexwriter == null) {
-			// String path =
-			// getClass().getClassLoader().getResource(CONSTANTS.indexpath).getPath();
-			// if (CONSTANTS.OSNAME.startsWith("Win")) {
-			// path = path.substring(1, path.length());
-			// }
 
 			Directory _indexFilesDirectory = FSDirectory.open(indexFilesDirectory.toPath());
 
@@ -130,11 +120,8 @@ public final class BuildIndex {
 		getIndexWriter();
 
 		String path = inputFilesDirectory.toString();
-		System.out.println("Started Indexing in  " + path + " this folder.");
+		logger.info("Started Indexing using text files of " + path + " folder.");
 
-		if (CONSTANTS.OSNAME.startsWith("Win")) {
-			path = path.substring(1, path.length());
-		}
 
 		Files.walk(Paths.get(path)).forEach((Path filepath) -> {
 			if (Files.isRegularFile(filepath)) {
@@ -143,16 +130,15 @@ public final class BuildIndex {
 					if (extension.toLowerCase().equals("txt")) {
 						updateIndex(filepath.toFile());
 					} else {
-						System.out.println("Not a text file. " + filepath.toString());
+						logger.error("Not a text file. " + filepath.toString());
 					}
 				} catch (IOException ex) {
-					Logger.getLogger("IOException. " + BuildIndex.class.getName()).log(Level.SEVERE, null, ex);
-					ex.printStackTrace();
+					logger.error("IOException", ex);
 				}
 			} else {
-				System.out.println("Not File: " + filepath);
+				logger.error("Not File: " + filepath);
 			}
 		});
-
+		logger.info("Indexing successfull. ");
 	}
 }

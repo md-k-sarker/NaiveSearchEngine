@@ -5,20 +5,20 @@
  */
 package edu.wright.dase.control;
 
-import static edu.wright.dase.model.CONSTANTS.ENCODING;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import edu.wright.dase.indexing.BuildIndex;
 import edu.wright.dase.model.CONSTANTS;
 import edu.wright.dase.ui.SearchGUI;
 
@@ -27,6 +27,8 @@ import edu.wright.dase.ui.SearchGUI;
  * @author mdkamruzzamansarker
  */
 public class Controller {
+	
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
 
 	int totalDocsFound = 0;
 	public static int counter = 0;
@@ -63,9 +65,7 @@ public class Controller {
 	private BufferedWriter openwriter() throws IOException {
 		if (CONSTANTS.RESULTSPATH != null) {
 			String path = CONSTANTS.RESULTSPATH + "/result.txt";
-			if (CONSTANTS.OSNAME.startsWith("Win")) {
-				path = path.substring(1, path.length());
-			}
+			
 			if (Files.exists(Paths.get(path))) {
 				writer = new BufferedWriter(new FileWriter(path, true));
 			} else {

@@ -5,34 +5,32 @@
  */
 package edu.wright.dase.control;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wright.dase.model.CONSTANTS;
 import edu.wright.dase.model.StandardAnalyzerCustomed;
+import edu.wright.dase.ui.SearchGUI;
 
 /**
  *
  * @author mdkamruzzamansarker
  */
 public class SearchEngine {
+
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
 
 	private IndexSearcher searcher = null;
 	private QueryParser qparser = null;
@@ -44,11 +42,9 @@ public class SearchEngine {
 	 * This creates Lucene IndexSearcher instance
 	 */
 	public SearchEngine() throws IOException {
+		
 		// constructor
 		String path = CONSTANTS.INDEXPATH;
-		if (CONSTANTS.OSNAME.startsWith("Win")) {
-			path = path.substring(1, path.length());
-		}
 
 		searcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(Paths.get(path))));
 

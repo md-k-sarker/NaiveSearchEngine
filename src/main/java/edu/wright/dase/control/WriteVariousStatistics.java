@@ -12,7 +12,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.wright.dase.model.CONSTANTS;
+import edu.wright.dase.ui.SearchGUI;
 
 /**
  *
@@ -20,13 +24,13 @@ import edu.wright.dase.model.CONSTANTS;
  */
 public class WriteVariousStatistics {
 
+	final static Logger logger = LoggerFactory.getLogger(SearchGUI.class);
+	
     public void writeCalcTimes() throws IOException {
         BufferedWriter writer = null;
 
         String path = getClass().getClassLoader().getResource(CONSTANTS.RESULTSPATH).getPath() + "/times.txt";
-        if (CONSTANTS.OSNAME.startsWith("Win")) {
-            path = path.substring(1, path.length());
-        }
+        
         if (Files.exists(Paths.get(path))) {
             writer = new BufferedWriter(new FileWriter(path, true));
         } else {
