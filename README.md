@@ -1,7 +1,7 @@
-##Naive Search Engine
-###This illustrates the basic functionality of a Search Engine
+## Naive Search Engine
+### This illustrates the basic functionality of a Search Engine
 
-###Indexing
+### Indexing
 First raw text need to be analyzed.
 
 1. Case Folding
@@ -11,12 +11,12 @@ First raw text need to be analyzed.
 After analyzing done different field has given different weightage.
 
  
-###Query Optimization
+### Query Optimization
 Query Optimization is highly important.
 Query need to be build using same Analyzer
 
 
-###Searching on existing Index 
+### Searching on existing Index 
 Return the matching documents
 
 <p>Built on top of Lucene API</p> 
@@ -28,4 +28,4 @@ Output is also available in text file format(.txt).
 
 <p><b>Various statistics is also available. Like Index Building Time, Searching Time, Document score etc  </b></p>
 
-###This is done for class project. Information Retrieval(CS:7800)
+### This is done for class project. Information Retrieval(CS:7800)
